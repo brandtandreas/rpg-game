@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { GameState } from '../systems/GameState';
 import { SaveService } from '../systems/SaveService';
+import { bindSceneInput } from '../systems/sceneInput';
 
 export class TitleScene extends Phaser.Scene {
   private saveService = new SaveService();
@@ -61,6 +62,12 @@ export class TitleScene extends Phaser.Scene {
     keyboard.on('keydown-S', () => this.move(1));
     keyboard.on('keydown-ENTER', () => this.confirm());
     keyboard.on('keydown-SPACE', () => this.confirm());
+
+    bindSceneInput(this, {
+      'press-up': () => this.move(-1),
+      'press-down': () => this.move(1),
+      action: () => this.confirm(),
+    });
   }
 
   private move(delta: number): void {

@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import type { Direction } from '../types';
 import { TILE_SIZE } from '../scenes/textures';
+import { virtualPad } from '../systems/inputBus';
 
 const SPEED = 140;
 
@@ -19,10 +20,10 @@ export class Player {
     const body = this.sprite.body as Phaser.Physics.Arcade.Body;
     let vx = 0;
     let vy = 0;
-    if (cursors.left?.isDown || wasd.A.isDown) vx -= SPEED;
-    if (cursors.right?.isDown || wasd.D.isDown) vx += SPEED;
-    if (cursors.up?.isDown || wasd.W.isDown) vy -= SPEED;
-    if (cursors.down?.isDown || wasd.S.isDown) vy += SPEED;
+    if (cursors.left?.isDown || wasd.A.isDown || virtualPad.left) vx -= SPEED;
+    if (cursors.right?.isDown || wasd.D.isDown || virtualPad.right) vx += SPEED;
+    if (cursors.up?.isDown || wasd.W.isDown || virtualPad.up) vy -= SPEED;
+    if (cursors.down?.isDown || wasd.S.isDown || virtualPad.down) vy += SPEED;
     if (vx !== 0 && vy !== 0) {
       vx *= Math.SQRT1_2;
       vy *= Math.SQRT1_2;

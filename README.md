@@ -19,6 +19,8 @@ project ships with **zero external assets** — easy to swap in real art later.
 
 ## Controls
 
+### Keyboard
+
 | Action       | Key                         |
 | ------------ | --------------------------- |
 | Move         | Arrow keys or `WASD`        |
@@ -26,6 +28,19 @@ project ships with **zero external assets** — easy to swap in real art later.
 | Open inventory | `I`                       |
 | Save         | `F5`                        |
 | Menu select  | Up/Down + `Enter`           |
+
+### Touch (mobile / tablet)
+
+A virtual D-pad (left) and four action buttons (right) appear automatically
+on touch devices. The desktop UI is unchanged.
+
+| Button | Action                             |
+| ------ | ---------------------------------- |
+| D-pad  | Move / navigate menus              |
+| `A`    | Talk, advance dialogue, confirm    |
+| `B`    | Cancel / close                     |
+| `I`    | Toggle inventory                   |
+| `S`    | Save                               |
 
 ## Develop
 
@@ -66,6 +81,7 @@ src/
 │   ├── DialogueScene.ts    # dialogue overlay
 │   ├── BattleScene.ts      # turn-based combat
 │   ├── UIScene.ts          # HUD + inventory panel
+│   ├── TouchScene.ts       # on-screen D-pad + buttons (mobile)
 │   └── textures.ts         # procedural sprite generators
 ├── entities/
 │   ├── Player.ts
@@ -75,7 +91,9 @@ src/
 │   ├── SaveService.ts      # localStorage save/load
 │   ├── Inventory.ts
 │   ├── Combat.ts
-│   └── DialogueRunner.ts
+│   ├── DialogueRunner.ts
+│   ├── inputBus.ts         # virtual D-pad + event bus for touch
+│   └── sceneInput.ts       # bind input-bus events with scene lifecycle
 └── data/
     ├── items.ts
     ├── enemies.ts
@@ -101,5 +119,4 @@ src/
 - Audio (BGM + SFX)
 - Multiple zones with transition triggers
 - Quest log
-- Mobile / touch input
 - Real sprite art (e.g. CC0 Kenney packs)

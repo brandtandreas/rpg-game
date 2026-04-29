@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { ITEMS } from '../data/items';
 import type { GameState } from '../systems/GameState';
+import { inputBus } from '../systems/inputBus';
 
 interface UISceneData {
   state: GameState;
@@ -100,6 +101,11 @@ export class UIScene extends Phaser.Scene {
     keyboard.on('keydown-S', onDown);
     keyboard.on('keydown-ENTER', onEnter);
     keyboard.on('keydown-ESC', onClose);
+    inputBus.on('press-up', onUp);
+    inputBus.on('press-down', onDown);
+    inputBus.on('action', onEnter);
+    inputBus.on('cancel', onClose);
+    inputBus.on('inventory', onClose);
     panel.once('destroy', () => {
       keyboard.off('keydown-UP', onUp);
       keyboard.off('keydown-DOWN', onDown);
@@ -107,6 +113,11 @@ export class UIScene extends Phaser.Scene {
       keyboard.off('keydown-S', onDown);
       keyboard.off('keydown-ENTER', onEnter);
       keyboard.off('keydown-ESC', onClose);
+      inputBus.off('press-up', onUp);
+      inputBus.off('press-down', onDown);
+      inputBus.off('action', onEnter);
+      inputBus.off('cancel', onClose);
+      inputBus.off('inventory', onClose);
     });
   }
 

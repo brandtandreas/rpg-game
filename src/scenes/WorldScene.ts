@@ -5,6 +5,7 @@ import { TILE_SIZE } from './textures';
 import { BLOCKED, TILE_KEYS, ZONES, type EnemySpawn, type Zone } from '../data/zones';
 import type { GameState } from '../systems/GameState';
 import { SaveService } from '../systems/SaveService';
+import { bindSceneInput } from '../systems/sceneInput';
 
 interface WorldSceneInitData {
   state: GameState;
@@ -104,6 +105,17 @@ export class WorldScene extends Phaser.Scene {
     } else {
       this.scene.get('UIScene').events.emit('hud:refresh');
     }
+    // Keep TouchScene above the world + UI
+    this.scene.bringToTop('TouchScene');
+
+    bindSceneInput(this, {
+      action: () => this.tryInteract(),
+      inventory: () => this.scene.get('UIScene').events.emit('hud:toggle-inventory'),
+      save: () => {
+        this.saveService.save(this.state.toSaveData());
+        this.flashMessage('Saved.');
+      },
+    });
 
     if (this.pendingFromBattle) {
       const event = this.pendingFromBattle;

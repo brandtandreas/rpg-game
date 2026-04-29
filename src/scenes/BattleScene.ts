@@ -3,6 +3,7 @@ import { ENEMIES } from '../data/enemies';
 import { ITEMS } from '../data/items';
 import { awardXp, createEnemyState, enemyAttack, playerAttack, tryFlee, type EnemyState } from '../systems/Combat';
 import type { GameState } from '../systems/GameState';
+import { bindSceneInput } from '../systems/sceneInput';
 
 interface BattleSceneData {
   state: GameState;
@@ -78,12 +79,20 @@ export class BattleScene extends Phaser.Scene {
     keyboard.on('keydown-S', () => this.move(1));
     keyboard.on('keydown-ENTER', () => this.confirm());
     keyboard.on('keydown-SPACE', () => this.confirm());
-    keyboard.on('keydown-ESC', () => {
+    const cancelToRoot = () => {
       if (this.menu === 'item') {
         this.menu = 'root';
         this.selected = 0;
         this.renderMenu();
       }
+    };
+    keyboard.on('keydown-ESC', cancelToRoot);
+
+    bindSceneInput(this, {
+      action: () => this.confirm(),
+      cancel: cancelToRoot,
+      'press-up': () => this.move(-1),
+      'press-down': () => this.move(1),
     });
   }
 

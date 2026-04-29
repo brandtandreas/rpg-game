@@ -5,6 +5,7 @@ import { WorldScene } from './scenes/WorldScene';
 import { DialogueScene } from './scenes/DialogueScene';
 import { BattleScene } from './scenes/BattleScene';
 import { UIScene } from './scenes/UIScene';
+import { TouchScene } from './scenes/TouchScene';
 
 export const GAME_WIDTH = 640;
 export const GAME_HEIGHT = 480;
@@ -27,5 +28,5 @@ export const gameConfig: Phaser.Types.Core.GameConfig = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  scene: [BootScene, TitleScene, WorldScene, DialogueScene, BattleScene, UIScene],
+  scene: [BootScene, TitleScene, WorldScene, DialogueScene, BattleScene, UIScene, TouchScene],
 };

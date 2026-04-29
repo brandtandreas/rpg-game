@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { DialogueRunner } from '../systems/DialogueRunner';
 import { DIALOGUES } from '../data/dialogues';
 import type { GameState } from '../systems/GameState';
+import { bindSceneInput } from '../systems/sceneInput';
 
 interface DialogueSceneData {
   state: GameState;
@@ -84,6 +85,13 @@ export class DialogueScene extends Phaser.Scene {
     keyboard.on('keydown-W', () => this.moveChoice(-1));
     keyboard.on('keydown-S', () => this.moveChoice(1));
     keyboard.on('keydown-ESC', () => this.close());
+
+    bindSceneInput(this, {
+      action: () => this.advance(),
+      cancel: () => this.close(),
+      'press-up': () => this.moveChoice(-1),
+      'press-down': () => this.moveChoice(1),
+    });
   }
 
   private renderCurrent(): void {
